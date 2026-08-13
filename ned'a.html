@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إلى ندائي 💕 | 13/8/2024</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #c77dff;
+      --gold: #ffb703;
+      --bg-dark: #0b091a;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Music Controller */
+    .music-control {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .music-control:hover {
+      background: rgba(255, 77, 109, 0.2);
+    }
+
+    .music-icon {
+      font-size: 1.2rem;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
+
+    /* Background Stars & Hearts */
+    .space-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 30%, #1a0933 0%, #080411 100%);
+    }
+
+    .heart-particle {
+      position: absolute;
+      color: rgba(255, 77, 109, 0.4);
+      animation: floatUp 8s infinite linear;
+      font-size: 1rem;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 680px;
+      margin: 30px auto;
+      padding: 25px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .step {
+      display: none;
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title-glow {
+      font-family: 'Amiri', serif;
+      font-size: 2.3rem;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #b8c0ff;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    /* Step 1: Light Switch */
+    .switch-box {
+      padding: 40px 20px;
+    }
+
+    .light-btn {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ff4d6d, #800020);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 2.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
+      transition: all 0.3s ease;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .light-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 50px rgba(255, 77, 109, 0.8);
+    }
+
+    /* Counter Box */
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .counter-item {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 5px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .counter-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .counter-label {
+      font-size: 0.75rem;
+      color: #ccc;
+    }
+
+    /* Story Card */
+    .story-card {
+      background: rgba(15, 12, 35, 0.6);
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: right;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      color: #e2e8f0;
+      min-height: 220px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .quote-box {
+      border-right: 3px solid var(--gold);
+      padding-right: 12px;
+      margin: 15px 0;
+      font-family: 'Amiri', serif;
+      color: #ffe3a8;
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2deg);
+      box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #ccc;
+      box-shadow: none;
+    }
+
+    /* Gift Box */
+    .gift-icon {
+      font-size: 80px;
+      cursor: pointer;
+      margin: 20px 0;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    .gift-icon:hover {
+      transform: scale(1.15) rotate(8deg);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff4d6d, #ffb703);
+      transition: width 2.5s cubic-bezier(0.1, 0.8, 0.3, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Audio Control Button -->
+  <div class="music-control" id="musicBtn" onclick="toggleAudio()">
+    <span class="music-icon" id="musicIcon">🎵</span>
+    <span id="musicStatus">تشغيل الموسيقى</span>
+  </div>
+
+  <div class="space-bg" id="spaceBg"></div>
+
+  <div class="container">
+
+    <!-- Step 1: الإضاءة والترحيب -->
+    <div class="step active" id="step-1">
+      <div class="switch-box">
+        <h1 class="title-glow">إلى نِداء قلبي.. 💕</h1>
+        <p class="subtitle">كان المكان يلفه الظلام، حتى أشرقت أنتِ...</p>
+        <button class="light-btn" onclick="startExperience()">💡</button>
+        <p style="font-size: 0.85rem; color: #888; margin-top: 15px;">إضغطي على المصباح لبدء الحكاية الموسيقية ✨</p>
+      </div>
+    </div>
+
+    <!-- Step 2: العداد والقصة -->
+    <div class="step" id="step-2">
+      <h2 class="title-glow" style="font-size: 1.8rem;">13 أغسطس 2024 - 1:55 AM 💕</h2>
+      <p class="subtitle">لحظة الاعتراف الشجاعة التي غيّرت حظي وحياتي للأبد</p>
+
+      <!-- Live Counter -->
+      <div class="counter-grid">
+        <div class="counter-item">
+          <div class="counter-value" id="days">0</div>
+          <div class="counter-label">يوم</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value" id="hours">0</div>
+          <div class="counter-label">ساعة</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value" id="minutes">0</div>
+          <div class="counter-label">دقيقة</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value" id="seconds">0</div>
+          <div class="counter-label">ثانية</div>
+        </div>
+      </div>
+
+      <div class="story-card" id="storyContent">
+        <!-- Content injected dynamically -->
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" id="prevBtn" onclick="changeChapter(-1)">السابق</button>
+        <span style="align-self: center; font-size: 0.85rem; color: #aaa;" id="chapterNum">1 / 4</span>
+        <button class="btn" id="nextBtn" onclick="changeChapter(1)">التالي ✨</button>
+      </div>
+    </div>
+
+    <!-- Step 3: الهدية وختام الاعتراف -->
+    <div class="step" id="step-3">
+      <h2 class="title-glow">🎁 هدية ندائي المتواضعة 🎁</h2>
+      <p class="subtitle">مهما قدمت لكِ، لن يوفيكِ حقكِ.. تقبلي هذا التعبير البسيط من قلبي</p>
+
+      <div class="gift-icon" id="giftBox" onclick="openFinalGift()">🎁</div>
+      <p id="giftHint" style="color: var(--gold);">اضغطي على الصندوق لفتحه 🤍</p>
+
+      <div id="giftResult" style="display: none; margin-top: 20px;">
+        <div class="story-card" style="text-align: center; border-color: var(--gold);">
+          <p style="font-size: 1.1rem; color: #fff; line-height: 2;">
+            في الختام.. أحبكِ ندائي، وأتمنى في هذا اليوم أن تكوني في أتم الصحة والعافية، وأن يجمعني الله بكِ في خير وعلى خير.<br>
+            <strong style="color: var(--gold); font-size: 1.2rem;">وداعاً حبيبي 🤍</strong>
+          </p>
+          
+          <p style="margin-top: 20px; font-size: 0.9rem; color: #ffb703;">مستوى الحب الدائم 💕</p>
+          <div class="progress-bar">
+            <div class="progress-fill" id="loveFill"></div>
+          </div>
+          <p style="font-size: 1.8rem; margin-top: 15px;">💐 🌹 🌸 🌺 🌷 🌻</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://cdns-preview-d.dzcdn.net/stream/c-d656fbb0ed796b29f798e16d4c53efd6-3.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('bgMusic');
+    const musicStatus = document.getElementById('musicStatus');
+    const musicIcon = document.getElementById('musicIcon');
+
+    // Chapter Texts
+    const chapters = [
+      `في مثل هذا اليوم ولد أحمد وأشرقت شمسه، كان أحمد يعيش في سراب يتخبطه يمنة ويسرة حتى ظهرتِ أنتِ.<br><br>
+       تعلم أحمد منكِ الكثير، بل وأكاد أجزم أن ما تعلمته منكِ كان أكثر مما تعلمته في مراحل دراستي، تعلمت أن أكون أحمد الحقيقي، تعلمت الحب، الاهتمام، الشعور، والإحساس.`,
+
+      `في مثل هذا اليوم وفي تمام الساعة 1:55 بعد منتصف الليل، كان أحمد في صراع بين قلبه وعقله، قلب يريد المجازفة والاعتراف، وعقل لا يقبل بالرفض، ضعيف، جبان، لا يحب المواجهة، لا يحب الاعتراف، يخشى أن يبوح بما في قلبه..<br><br>
+       نعم كان لا يرى سواكِ، ونعم كان لا ينبض إلا لكِ، ولكن كعادة أحمد سابقاً لم يستطع التغلب على خوفه ومهابة المجازفة. أتى هذا اليوم وهذا التاريخ، وبعد محاولات عدة، شد وجذب، رسالة تُحذف وكلام يُمحى، إقبال وتردد، قرر أحمد أن يبوح لكِ بما في قلبه.. تشجع واعترف لكِ بحبه الذي طالما كان ساكناً في قلبه لا يعلمه غيره، أحبكِ طيلة سنين وأعوام مع نفسه وظل صامتاً يراقب من بعيد، حتى أتى هذا اليوم.`,
+
+      `طالما شبهتكِ بالسحر، حيث أنكِ جئتِ وغيرتِ أحمد وحياة أحمد من وإلى.. أعجز عن وصفكِ ووصف ما قمتِ به، كيف كان يعيش تلك الحياة البائسة والكئيبة، حياة ليس لها لون ولا طعم ولا رائحة حتى أتيتِ، كنتُ أعمى، جسداً بدون روح، أتيتِ أنتِ وبعثتِ الحياة لذلك الجسد، أحببتُ الحياة وأحببتُ نفسي، ولكن أحببتكِ أكثر.<br>
+      <div class="quote-box">
+        "طول عمري بخاف من الحب وسيرة الحب.. وقابلتك انت لقيتك بتغير كل حياتي.. ما أعرفش إزاي حبيتك ما أعرفش إزاي ياحياتي.. من همسة حب لقيتني باحب وأدوب في الحب وصبح وليل علي بابه."
+      </div>`,
+
+      `وأخيراً وليس آخراً، أريد أن أستغل هذا اليوم وهذه اللحظة لأقول لكِ:
+      <div class="quote-box">
+        "ياما عيون شاغلوني لكن ولا شغلوني.. إلا عيونك انت دول بس اللي خدوني وبحبك أمروني."
+      </div>
+      أحبكِ في الأمس وأحبكِ اليوم وغداً وحتى الممات، سأظل أحبكِ طالما هذا الجسد لا يزال يتنفس 💕`
+    ];
+
+    let currentChapter = 0;
+
+    // Start Experience & Play Music
+    function startExperience() {
+      playAudio();
+      showStep(2);
+      renderChapter();
+      startLiveCounter();
+      createFloatingHearts();
+    }
+
+    // Audio Controls
+    function playAudio() {
+      audio.play().then(() => {
+        musicStatus.textContent = "إيقاف الموسيقى";
+        musicIcon.textContent = "🎶";
+      }).catch(err => console.log("Audio deferred"));
+    }
+
+    function toggleAudio() {
+      if (audio.paused) {
+        playAudio();
+      } else {
+        audio.pause();
+        musicStatus.textContent = "تشغيل الموسيقى";
+        musicIcon.textContent = "🎵";
+      }
+    }
+
+    // Switch Steps
+    function showStep(stepNum) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-${stepNum}`).classList.add('active');
+    }
+
+    // Story Navigation
+    function renderChapter() {
+      document.getElementById('storyContent').innerHTML = chapters[currentChapter];
+      document.getElementById('chapterNum').textContent = `${currentChapter + 1} / ${chapters.length}`;
+      document.getElementById('prevBtn').style.visibility = currentChapter === 0 ? 'hidden' : 'visible';
+
+      if (currentChapter === chapters.length - 1) {
+        document.getElementById('nextBtn').textContent = 'إنتقلي للهدية 🎁';
+      } else {
+        document.getElementById('nextBtn').textContent = 'التالي ✨';
+      }
+    }
+
+    function changeChapter(dir) {
+      if (dir === 1 && currentChapter === chapters.length - 1) {
+        showStep(3);
+        return;
+      }
+      currentChapter += dir;
+      renderChapter();
+    }
+
+    // Live Love Counter from 13/8/2024 @ 01:55 AM
+    function startLiveCounter() {
+      const startDate = new Date('2024-08-13T01:55:00');
+      
+      setInterval(() => {
+        const now = new Date();
+        const diff = now - startDate;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+      }, 1000);
+    }
+
+    // Floating Particles
+    function createFloatingHearts() {
+      const bg = document.getElementById('spaceBg');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.innerHTML = ['💕', '✨', '💖', '⭐'][Math.floor(Math.random() * 4)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        bg.appendChild(heart);
+      }
+    }
+
+    // Open Gift
+    function openFinalGift() {
+      document.getElementById('giftBox').textContent = '🎉';
+      document.getElementById('giftHint').style.display = 'none';
+      document.getElementById('giftResult').style.display = 'block';
+
+      setTimeout(() => {
+        document.getElementById('loveFill').style.width = '100%';
+      }, 100);
+    }
+  </script>
+</body>
+</html>
+ يعلمه غيره، أحبكِ طيلة سنين وأعوام مع نفسه وظل صامتاً يراقب من بعيد، حتى أتى هذا اليوم.`,
+
+      `طالما شبهتكِ بالسحر، حيث أنكِ جئتِ وغيرتِ أحمد وحياة أحمد من وإلى.. أعجز عن وصفكِ ووصف ما قمتِ به، كيف كان يعيش تلك الحياة البائسة والكئيبة، حياة ليس لها لون ولا طعم ولا رائحة حتى أتيتِ، كنتُ أعمى، جسداً بدون روح، أتيتِ أنتِ وبعثتِ الحياة لذلك الجسد، أحببتُ الحياة وأحببتُ نفسي، ولكن أحببتكِ أكثر.<br>
+      <div class="quote-box">
+        "طول عمري بخاف من الحب وسيرة الحب.. وقابلتك انت لقيتك بتغير كل حياتي.. ما أعرفش إزاي حبيتك ما أعرفش إزاي ياحياتي.. من همسة حب لقيتني باحب وأدوب في الحب وصبح وليل علي بابه."
+      </div>`,
+
+      `وأخيراً وليس آخراً، أريد أن أستغل هذا اليوم وهذه اللحظة لأقول لكِ:
+      <div class="quote-box">
+        "ياما عيون شاغلوني لكن ولا شغلوني.. إلا عيونك انت دول بس اللي خدوني وبحبك أمروني."
+      </div>
+      أحبكِ في الأمس وأحبكِ اليوم وغداً وحتى الممات، سأظل أحبكِ طالما هذا الجسد لا يزال يتنفس 💕`
+    ];
+
+    let currentChapter = 0;
+
+    // Start Experience & Play Music
+    function startExperience() {
+      document.getElementById('bgMusic').play().catch(() => console.log("Audio play deferred"));
+      showStep(2);
+      renderChapter();
+      startLiveCounter();
+      createFloatingHearts();
+    }
+
+    // Switch Steps
+    function showStep(stepNum) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-${stepNum}`).classList.add('active');
+    }
+
+    // Story Navigation
+    function renderChapter() {
+      document.getElementById('storyContent').innerHTML = chapters[currentChapter];
+      document.getElementById('chapterNum').textContent = `${currentChapter + 1} / ${chapters.length}`;
+      document.getElementById('prevBtn').style.visibility = currentChapter === 0 ? 'hidden' : 'visible';
+
+      if (currentChapter === chapters.length - 1) {
+        document.getElementById('nextBtn').textContent = 'إنتقلي للهدية 🎁';
+      } else {
+        document.getElementById('nextBtn').textContent = 'التالي ✨';
+      }
+    }
+
+    function changeChapter(dir) {
+      if (dir === 1 && currentChapter === chapters.length - 1) {
+        showStep(3);
+        return;
+      }
+      currentChapter += dir;
+      renderChapter();
+    }
+
+    // Live Love Counter from 13/8/2024
+    function startLiveCounter() {
+      const startDate = new Date('2024-08-13T00:00:00');
+      
+      setInterval(() => {
+        const now = new Date();
+        const diff = now - startDate;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+      }, 1000);
+    }
+
+    // Floating Particles
+    function createFloatingHearts() {
+      const bg = document.getElementById('spaceBg');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.innerHTML = ['💕', '✨', '💖', '⭐'][Math.floor(Math.random() * 4)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        bg.appendChild(heart);
+      }
+    }
+
+    // Open Gift
+    function openFinalGift() {
+      document.getElementById('giftBox').textContent = '🎉';
+      document.getElementById('giftHint').style.display = 'none';
+      document.getElementById('giftResult').style.display = 'block';
+
+      setTimeout(() => {
+        document.getElementById('loveFill').style.width = '100%';
+      }, 100);
+    }
+  </script>
+</body>
+</html>
